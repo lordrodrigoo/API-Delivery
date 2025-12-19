@@ -1,7 +1,15 @@
 astroid==4.0.2
+cfgv==3.5.0
 dill==0.4.0
+distlib==0.4.0
+filelock==3.20.1
+identify==2.6.15
 isort==7.0.0
 mccabe==0.7.0
+nodeenv==1.9.1
 platformdirs==4.5.1
+pre_commit==4.5.1
 pylint==4.0.4
+PyYAML==6.0.3
 tomlkit==0.13.3
+virtualenv==20.35.4
