@@ -16,7 +16,9 @@ disable=
     C0115, # Missing class docstring
     R0917, # Too many positional arguments
     R0902, # Too many instance attributes
-
+    R0914, # Upper case variable name   
+    invalid-name, # Variable name doesn't conform to snake_case
+    
 # Analyse import fallback blocks. This can be used to support both Python 2 and
 # 3 compatible code, which means that the block might have code that exists
 # only in one or another interpreter, leading to false positives when analysed.
