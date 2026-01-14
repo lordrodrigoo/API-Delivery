@@ -1,19 +1,18 @@
-#pylint: disable=redefined-outer-name
-import pytest
-from sqlalchemy import text
-from src.infra.db.settings.connection import DBConnectionHandler
-
-@pytest.fixture(scope="module")
-def db_connection():
-    handler = DBConnectionHandler()
-    conn = handler.get_engine().connect()
-    yield conn
-    conn.close()
+import os
+import psycopg2
 
 
-@pytest.fixture
-def teardown(db_connection):
-    def _teardown(query):
-        db_connection.execute(text(query))
-        db_connection.commit()
-    return _teardown
+def get_connection():
+    host = os.getenv("DB_HOST")
+    port = os.getenv("DB_PORT")
+    username = os.getenv("DB_USER")
+    password = os.getenv("DB_PASSWORD")
+    database = os.getenv("DB_NAME")
+    return psycopg2.connect(f"host={host} port={database} user={username} password={password} dbname={port}")
+
+
+def create_table(query):
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(query)
+            conn.commit()

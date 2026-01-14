@@ -1,14 +1,15 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from src.infra.db.settings.base import Base
 
-class User(Base):
+class UserEntity(Base):
+    """Entity class representing the users table in the database."""
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
     age = Column(Integer, nullable=True)
-    email = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False, unique=True)
     password_hash = Column(String(128), nullable=False)
     phone = Column(String(20), nullable=True)
     is_active = Column(Boolean, default=True)
@@ -16,4 +17,7 @@ class User(Base):
     updated_at = Column(DateTime, nullable=True)
 
     def __repr__(self):
-        return f"Users [id = {self.id}, first_name = {self.first_name}, last_name = {self.last_name}, age = {self.age}, phone = {self.phone}, email = {self.email}]"
+        return (
+            f"UserEntity(id={self.id}, first_name='{self.first_name}', "
+            f"last_name='{self.last_name}', email='{self.email}')"
+        )
