@@ -3,11 +3,20 @@ erDiagram
         int id
         string first_name
         string last_name
-        string password_hash
         int age
         string email
         string phone
         bool is_active
+        datetime created_at
+        datetime updated_at
+    }
+
+    Account {
+        int id
+        int user_id
+        string username
+        string password_hash
+        enum status
         datetime created_at
         datetime updated_at
     }
@@ -79,6 +88,7 @@ erDiagram
 
     User ||--o{ Address : has
     User ||--o{ Order : places
+    User ||--|| Account : has
     Address ||--o{ Order : used_for
     Order ||--o{ OrderItem : includes
     Product ||--o{ OrderItem : ordered_in
