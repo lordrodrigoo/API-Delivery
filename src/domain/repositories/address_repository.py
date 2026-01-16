@@ -1,24 +1,25 @@
 from abc import ABC, abstractmethod
+from typing import Optional, List
 from src.domain.models.address import Address
 
 
-class AddressRepository(ABC):
-    @abstractmethod
-    def list(self) -> list[Address]:
-        pass
+class AddressRepositoryInterface(ABC):
+    """This interface defines the contract for address repository."""
 
     @abstractmethod
-    def add(self, address: Address) -> Address:
-        pass
+    def create_address(self, address: Address) -> Address: pass
 
     @abstractmethod
-    def get_by_id(self, address_id: str) -> Address:
-        pass
+    def update_address(self, address: Address) -> Address: pass
 
     @abstractmethod
-    def update(self, address: Address) -> Address:
-        pass
+    def find_all_addresses(self) -> List[Address]: pass
 
     @abstractmethod
-    def delete(self, address_id: str) -> None:
-        pass
+    def find_address_by_id(self, address_id: int) -> Optional[Address]: pass
+
+    @abstractmethod
+    def find_addresses_by_user_id(self, user_id: int) -> List[Address]: pass
+
+    @abstractmethod
+    def delete_address(self, address_id: int) -> bool: pass
