@@ -32,3 +32,4 @@ class BaseRepository(Generic[T]):
     def delete(self, obj: T) -> None:
         self.session.delete(obj)
         self.session.commit()
+

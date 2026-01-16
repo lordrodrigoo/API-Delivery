@@ -8,7 +8,6 @@ class Users:
     """Entity of domain - it represents a user in the system."""
     first_name: str
     last_name: str
-    password_hash: str
     age: int
     phone: str
     email: str
@@ -26,7 +25,6 @@ class Users:
     def create_user(
         first_name: str,
         last_name: str,
-        password_hash: str,
         age: int,
         phone: str,
         email: str,
@@ -36,7 +34,6 @@ class Users:
         return Users(
             first_name=first_name,
             last_name=last_name,
-            password_hash=password_hash,
             age=age,
             phone=phone,
             email=email,
@@ -49,7 +46,6 @@ class Users:
             id=entity.id,
             first_name=entity.first_name,
             last_name=entity.last_name,
-            password_hash=entity.password_hash,
             age=entity.age,
             phone=entity.phone,
             email=entity.email,

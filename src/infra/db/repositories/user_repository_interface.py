@@ -1,142 +1,73 @@
 from typing import List, Optional
-from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
 from src.infra.db.settings.connection import DBConnectionHandler
 from src.infra.db.entities.user import UserEntity
 from src.domain.repositories.user_repository import UserRepositoryInterface
 from src.domain.models.user import Users
+from src.utils.base_repository import BaseRepository
 
 
-class UserRepository(UserRepositoryInterface):
+class UserRepository(UserRepositoryInterface, BaseRepository[UserEntity]):
+    def __init__(self, db_connection: DBConnectionHandler):
+        super().__init__(UserEntity, db_connection.get_session())
 
-    @classmethod
-    def create_user(cls, user: Users) -> Users:
-        """Creates a new user in database"""
-        with DBConnectionHandler() as db_connection:
-            try:
-                now = datetime.now()
-                new_user = UserEntity(
-                    first_name=user.first_name,
-                    last_name=user.last_name,
-                    password_hash=user.password_hash,
-                    age=user.age,
-                    phone=user.phone,
-                    email=user.email,
-                    is_active=user.is_active,
-                    created_at=now,
-                    updated_at=now
-                )
-                db_connection.session.add(new_user)
-                db_connection.session.commit()
-                db_connection.session.refresh(new_user)
+    def create_user(self, user: Users) -> Users:
+        entity = UserEntity(
+            first_name=user.first_name,
+            last_name=user.last_name,
+            age=user.age,
+            email=user.email,
+            password_hash=user.password_hash,
+            phone=user.phone,
+            is_active=user.is_active,
+            created_at=user.created_at,
+            updated_at=user.updated_at
+        )
+        self.add(entity)
+        return Users.from_entity(entity)
 
-                return Users.from_entity(new_user)
+    def update_user(self, user: Users) -> Users:
+        entity = self.session.query(self.model).get(user.id)
 
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
+        if entity:
+            entity.first_name = user.first_name
+            entity.last_name = user.last_name
+            entity.age = user.age
+            entity.email = user.email
+            entity.password_hash = user.password_hash
+            entity.phone = user.phone
+            entity.is_active = user.is_active
+            entity.updated_at = user.updated_at
+            self.update(entity)
 
-    @classmethod
-    def update_user(cls, user: Users) -> Optional[Users]:
-        """Updates an existing user in the database."""
-        if user.id is None:
-            raise ValueError("User ID must be provided for update.")
+        return Users.from_entity(entity)
 
-        with DBConnectionHandler() as db_connection:
-            try:
-                existing_user = (
-                    db_connection.session
-                    .query(UserEntity)
-                    .filter(UserEntity.id == user.id)
-                    .first()
-                )
+    def find_all_users(self) -> List[Users]:
+        return [Users.from_entity(user) for user in self.get_all()]
 
-                if not existing_user:
-                    return None
+    def find_user_by_id(self, user_id: int) -> Optional[Users]:
+        entity = self.get_by_id(user_id)
+        return Users.from_entity(entity) if entity else None
 
-                # Update all fields
-                existing_user.first_name = user.first_name
-                existing_user.last_name = user.last_name
-                existing_user.password_hash = user.password_hash
-                existing_user.age = user.age
-                existing_user.phone = user.phone
-                existing_user.email = user.email
-                existing_user.is_active = user.is_active
-                existing_user.updated_at = datetime.now()
+    def find_by_name(self, name: str) -> List[Users]:
+        entities = self.session.query(self.model).filter(self.model.first_name == name).all()
+        return [Users.from_entity(user) for user in entities]
 
-                db_connection.session.commit()
-                db_connection.session.refresh(existing_user)
+    def delete_user(self, user_id: int) -> bool:
+        entity = self.get_by_id(user_id)
 
-                return Users.from_entity(existing_user)
+        if entity:
+            self.delete(entity)
+            return True
+        return False
 
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
-
-    @classmethod
-    def find_all(cls) -> List[Users]:
-        """Return all users from database."""
-        with DBConnectionHandler() as db_connection:
-            try:
-                entities = db_connection.session.query(UserEntity).all()
-                return [Users.from_entity(entity) for entity in entities]
-
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
-
-    @classmethod
-    def find_by_id(cls, user_id: int) -> Optional[Users]:
-        """Search for a user by ID."""
-        with DBConnectionHandler() as db_connection:
-            try:
-                entity = (
-                    db_connection.session
-                    .query(UserEntity)
-                    .filter(UserEntity.id == user_id)
-                    .first()
-                )
-                return Users.from_entity(entity) if entity else None
-
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
-
-    @classmethod
-    def find_by_name(cls, name: str) -> List[Users]:
-        """Search for users by name."""
-        with DBConnectionHandler() as db_connection:
-            try:
-                entities = (
-                    db_connection.session
-                    .query(UserEntity)
-                    .filter(UserEntity.first_name == name)
-                    .all()
-                )
-                return [Users.from_entity(entity) for entity in entities]
-
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
-
-    @classmethod
-    def delete_user(cls, user_id: int) -> bool:
-        with DBConnectionHandler() as db_connection:
-            try:
-                entity = (
-                    db_connection.session
-                    .query(UserEntity)
-                    .filter(UserEntity.id == user_id)
-                    .first()
-                )
-
-                if not entity:
-                    return False
-
-                db_connection.session.delete(entity)
-                db_connection.session.commit()
-                return True
-
-            except SQLAlchemyError as error:
-                db_connection.session.rollback()
-                raise error
+    def select_user_by_name(self, name: str) -> Optional[Users]:
+        """Select a user by their name."""
+        try:
+            entity = self.get_by_name(name)
+            if entity:
+                return Users.from_entity(entity)
+            return None
+        except SQLAlchemyError as e:
+            print(f"Database error occurred: {e}")
+            return None
