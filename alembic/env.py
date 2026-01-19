@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 import sys
 import os
 
@@ -6,7 +7,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
 
-from src.infra.db.entities import user, product, category, address # pylint: disable=unused-import
+from src.infra.db.entities import user, product, category, address, account # pylint: disable=unused-import
 from src.infra.db.settings.base import Base # noqa: F401
 
 from dotenv import load_dotenv # pylint: disable=wrong-import-order
@@ -32,7 +33,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 
 
