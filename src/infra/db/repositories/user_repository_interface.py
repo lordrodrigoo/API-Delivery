@@ -38,7 +38,8 @@ class UserRepository(UserRepositoryInterface, BaseRepository[UserEntity]):
             self.save()
         return Users.from_entity(entity)
 
-    def get_all_users(self) -> List[Users]:
+
+    def find_all_users(self) -> List[Users]:
         return [Users.from_entity(user) for user in self.get_all()]
 
     def find_user_by_id(self, user_id: int) -> Optional[Users]:
