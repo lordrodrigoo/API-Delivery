@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
@@ -11,7 +11,7 @@ class AccountEntity(Base):
     user_id = Column(Integer, nullable=False)
     username = Column(String(50), nullable=False)
     password_hash = Column(String(128), nullable=False)
-    status = Column(Boolean, default=True)
+    status = Column(String(20), default='active')
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 

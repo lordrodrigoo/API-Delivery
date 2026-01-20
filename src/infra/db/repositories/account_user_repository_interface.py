@@ -18,7 +18,7 @@ class AccountRepository(AccountRepositoryInterface, BaseRepository[AccountEntity
             user_id=account.user_id,
             username=account.username,
             password_hash=account.password_hash,
-            status=account.status,
+            status=account.status.value,  #Save as string
             created_at=now,
             updated_at=now
         )
@@ -37,7 +37,7 @@ class AccountRepository(AccountRepositoryInterface, BaseRepository[AccountEntity
         entity.user_id = account.user_id
         entity.username = account.username
         entity.password_hash = account.password_hash
-        entity.status = account.status
+        entity.status = account.status.value
         entity.updated_at = datetime.now()
         self.save()
 

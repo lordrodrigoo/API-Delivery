@@ -2,6 +2,14 @@
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Optional
+from enum import Enum
+
+
+class AccountStatus(Enum):
+    """Enumeration for account status."""
+    ACTIVE = 'active'
+    INACTIVE = 'inactive'
+    SUSPENDED = 'suspended'
 
 @dataclass
 class Account:
@@ -10,7 +18,7 @@ class Account:
     user_id: int
     username: str
     password_hash: str
-    status: bool
+    status: AccountStatus
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -25,7 +33,7 @@ class Account:
         user_id: int,  # Foreign key to Users
         username: str,
         password_hash: str,
-        status: bool
+        status: AccountStatus
     ) -> 'Account':
         """Factory method to create a new account instance."""
         return Account(
@@ -44,7 +52,7 @@ class Account:
             user_id=entity.user_id,
             username=entity.username,
             password_hash=entity.password_hash,
-            status=entity.status,
+            status=AccountStatus(entity.status),
             created_at=entity.created_at,
             updated_at=entity.updated_at
         )

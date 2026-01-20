@@ -24,7 +24,7 @@ def upgrade() -> None:
         sa.Column('user_id', sa.Integer(), sa.ForeignKey('users.id'), nullable=False),
         sa.Column('username', sa.String(length=50), nullable=False),
         sa.Column('password_hash', sa.String(length=128), nullable=False),
-        sa.Column('status', sa.Boolean(), nullable=True),
+        sa.Column('status', sa.String(length=20), nullable=True),
         sa.Column('created_at', sa.DateTime(), nullable=False),
         sa.Column('updated_at', sa.DateTime(), nullable=True),
         sa.PrimaryKeyConstraint('id')
