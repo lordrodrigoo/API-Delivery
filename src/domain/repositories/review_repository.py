@@ -1,23 +1,23 @@
 from abc import ABC, abstractmethod
 from src.domain.models.review import Review
 
-class ReviewRepository(ABC):
-    @abstractmethod
-    def add_review(self, review: Review) -> None:
-        pass
+class ReviewRepositoryInterface(ABC):
+    """This interface defines the contract for review repository."""
 
     @abstractmethod
-    def get_review_by_id(self, review_id: int) -> Review:
-        pass
+    def create_review(self, review: Review) -> Review: pass
 
     @abstractmethod
-    def update_review(self, review: Review) -> None:
-        pass
+    def get_review_by_id(self, review_id: int) -> Review | None: pass
 
     @abstractmethod
-    def delete_review(self, review_id: int) -> None:
-        pass
+    def find_reviews_by_user(self, user_id: int) -> list[Review]: pass
 
     @abstractmethod
-    def list_reviews(self) -> list[Review]:
-        pass
+    def find_reviews_by_rating(self, min_rating: int, max_rating: int) -> list[Review]: pass
+
+    @abstractmethod
+    def get_all_reviews(self) -> list[Review]: pass
+
+    @abstractmethod
+    def delete_review(self, review_id: int) -> bool: pass

@@ -10,7 +10,7 @@ from alembic import context
 
 from src.infra.db.entities import (
     user, product, category, address, account,
-    order, order_item
+    order, order_item, review
 )
 from src.infra.db.settings.base import Base # noqa: F401
 
