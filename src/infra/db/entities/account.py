@@ -3,8 +3,8 @@ from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
 
+
 class AccountEntity(Base):
-    """Entity class representing the accounts table in the database."""
     __tablename__ = 'accounts'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -15,8 +15,7 @@ class AccountEntity(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 
-    user = relationship("User", back_populates="accounts")
-
+    user = relationship('UserEntity', back_populates='accounts')
 
     def __repr__(self):
         return (

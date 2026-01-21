@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
 
+
 class ProductEntity(Base):
     __tablename__ = 'products'
 
@@ -18,8 +19,8 @@ class ProductEntity(Base):
 
     "Bellow are foreign keys and relationships"
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
-    category = relationship('Category', backref='products')
-    order_items = relationship('OrderItem', backref='product')
+    category = relationship('CategoryEntity', back_populates='products')
+    order_items = relationship('OrderItemEntity', back_populates='product')
 
     def __repr__(self):
         return f"Product [id = {self.id}, name = {self.name}, price = {self.price}, category_id = {self.category_id}]"

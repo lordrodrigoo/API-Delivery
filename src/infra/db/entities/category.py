@@ -2,6 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String
 from src.infra.db.settings.base import Base
 
+
 class CategoryEntity(Base):
     __tablename__ = 'categories'
 

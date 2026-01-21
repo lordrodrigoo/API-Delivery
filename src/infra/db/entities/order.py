@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Numeric, DateTime
 from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
+
 class OrderEntity(Base):
     __tablename__ = 'orders'
 
@@ -13,12 +14,11 @@ class OrderEntity(Base):
 
     "Bellow are foreign keys and relationships"
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    user = relationship('User', backref='orders')
+    user = relationship('UserEntity', back_populates='orders')
     address_id = Column(Integer, ForeignKey('addresses.id'), nullable=False)
-    address = relationship('Address', backref='orders')
-    order_items = relationship('OrderItem', backref='order')
-    review = relationship('Review', backref='order', uselist=False)
-
+    address = relationship('AddressEntity', back_populates='orders')
+    order_items = relationship('OrderItemEntity', back_populates='order')
+    review = relationship('ReviewEntity', back_populates='order', uselist=False)
 
     def __repr__(self):
         return f"Order [id = {self.id}, user_id = {self.user_id}, total_amount = {self.total_amount}, status = {self.status}]"

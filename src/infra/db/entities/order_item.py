@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
+
 class OrderItemEntity(Base):
     __tablename__ = 'order_items'
 
@@ -14,7 +15,8 @@ class OrderItemEntity(Base):
     "Bellow are foreign keys and relationships"
     order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
     product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
-    product = relationship('Product', backref='order_items')
+    order = relationship('OrderEntity', back_populates='order_items')
+    product = relationship('ProductEntity', back_populates='order_items')
 
     def __repr__(self):
         return f"OrderItem [id = {self.id}, order_id = {self.order_id}, product_id = {self.product_id}, quantity = {self.quantity}]"

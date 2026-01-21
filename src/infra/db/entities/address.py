@@ -4,6 +4,7 @@ from src.infra.db.settings.base import Base
 from src.infra.db.entities.user import UserEntity  #pylint: disable=unused-import
 
 
+
 class AddressEntity(Base):
     __tablename__= 'addresses'
 
@@ -20,7 +21,7 @@ class AddressEntity(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 
-    user = relationship('UserEntity', backref='addresses')
+    user = relationship('UserEntity', back_populates='addresses')
 
     def __repr__(self):
         return f"Address [id = {self.id}, user_id = {self.user_id}, street = {self.street}, city = {self.city}]"

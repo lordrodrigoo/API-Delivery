@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Numeric, DateTime
 from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
+
 class ReviewEntity(Base):
     __tablename__ = 'reviews'
 
@@ -13,9 +14,9 @@ class ReviewEntity(Base):
 
     "Bellow are foreign keys and relationships"
     order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
-    order = relationship('Order', backref='review')
-    user = relationship('User', backref='reviews')
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    order = relationship('OrderEntity', back_populates='review')
+    user = relationship('UserEntity', back_populates='reviews')
 
     def __repr__(self):
         return f"Review [id = {self.id}, order_id = {self.order_id}, rating = {self.rating}]"

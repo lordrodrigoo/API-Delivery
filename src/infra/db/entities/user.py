@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from src.infra.db.settings.base import Base
 
 
+
 class UserEntity(Base):
     """Entity class representing the users table in the database."""
     __tablename__ = 'users'
@@ -18,9 +19,10 @@ class UserEntity(Base):
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 
-    accounts = relationship('AccountEntity', backref='user')
-    addresses = relationship('AddressEntity', backref='user')
-    orders = relationship('OrderEntity', backref='user')
+    accounts = relationship('AccountEntity', back_populates='user')
+    addresses = relationship('AddressEntity', back_populates='user')
+    orders = relationship('OrderEntity', back_populates='user')
+    reviews = relationship('ReviewEntity', back_populates='user')
 
     def __repr__(self):
         return (
