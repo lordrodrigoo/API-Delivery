@@ -1,30 +1,7 @@
 #pylint: disable=redefined-outer-name
 #pylint: disable=unused-argument
 #pylint: disable=unused-import
-from datetime import datetime
-import pytest
 from src.infra.db.entities.review import ReviewEntity
-from tests.integration_tests.test_user import fake_user
-from tests.integration_tests.test_product import fake_product
-from tests.integration_tests.test_category import fake_category
-from tests.integration_tests.test_order import fake_order
-from tests.integration_tests.test_account import fake_account
-from tests.integration_tests.test_address import fake_address
-
-
-@pytest.fixture
-def fake_review(db_session, fake_user, fake_order, fake_account, fake_product, fake_category):
-    review = ReviewEntity(
-        order_id=fake_order.id,
-        user_id=fake_user.id,
-        product_id=fake_product.id,
-        rating=5,
-        comment="Great product!",
-        created_at=datetime.now()
-    )
-    db_session.add(review)
-    db_session.commit()
-    return review
 
 
 def test_create_review(db_session, fake_review):

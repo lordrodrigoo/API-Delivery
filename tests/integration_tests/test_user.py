@@ -5,23 +5,6 @@ import pytest
 from src.infra.db.entities.user import UserEntity
 
 
-@pytest.fixture
-def fake_user(db_session):
-    user = UserEntity(
-        first_name="Ana",
-        last_name="Silva",
-        age=28,
-        email="ana.silva@example.com",
-        phone="123456789",
-        is_active=True,
-        password_hash="hashed_password",
-        created_at=datetime.now(),
-        updated_at=None
-    )
-    db_session.add(user)
-    db_session.commit()
-    return user
-
 
 def test_insert_user(db_session, fake_user):
     assert fake_user.id is not None

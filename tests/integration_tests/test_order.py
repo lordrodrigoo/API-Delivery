@@ -4,23 +4,6 @@
 from datetime import datetime
 import pytest
 from src.infra.db.entities.order import OrderEntity
-from tests.integration_tests.test_user import fake_user
-from tests.integration_tests.test_account import fake_account
-from tests.integration_tests.test_address import fake_address
-
-
-@pytest.fixture
-def fake_order(db_session, fake_user, fake_account, fake_address):
-    order = OrderEntity(
-        user_id = fake_user.id,
-        total_amount = 150.75,
-        status = "pending",
-        created_at = datetime.now(),
-        updated_at = None
-    )
-    db_session.add(order)
-    db_session.commit()
-    return order
 
 
 def test_create_order(db_session, fake_order):

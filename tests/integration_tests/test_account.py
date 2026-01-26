@@ -4,22 +4,6 @@
 from datetime import datetime
 import pytest
 from src.infra.db.entities.account import AccountEntity
-from tests.integration_tests.test_user import fake_user
-
-
-@pytest.fixture
-def fake_account(db_session, fake_user):
-    account = AccountEntity(
-        user_id=fake_user.id,
-        username="ana_silva",
-        password_hash="hashed_password",
-        status="active",
-        created_at=datetime.now(),
-        updated_at=None
-    )
-    db_session.add(account)
-    db_session.commit()
-    return account
 
 
 def test_create_account(db_session, fake_user, fake_account):

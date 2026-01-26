@@ -4,27 +4,6 @@
 from decimal import Decimal
 import pytest
 from src.infra.db.entities.order_item import OrderItemEntity
-from tests.integration_tests.test_user import fake_user
-from tests.integration_tests.test_order import fake_order
-from tests.integration_tests.test_account import fake_account
-from tests.integration_tests.test_address import fake_address
-from tests.integration_tests.test_product import fake_product
-from tests.integration_tests.test_category import fake_category
-
-
-@pytest.fixture
-def fake_order_item(db_session, fake_order, fake_product):
-    order_item = OrderItemEntity(
-        order_id=fake_order.id,
-        product_id=fake_product.id,
-        quantity=2,
-        unit_price=Decimal('25.50'),
-        subtotal=Decimal('51.00'),
-        notes="Handle with care"
-    )
-    db_session.add(order_item)
-    db_session.commit()
-    return order_item
 
 
 def test_create_order_item(db_session, fake_order_item, fake_order, fake_product):

@@ -1,30 +1,7 @@
 #pylint: disable=redefined-outer-name
 #pylint: disable=unused-argument
 #pylint: disable=unused-import
-from datetime import datetime
-import pytest
 from src.infra.db.entities.address import AddressEntity
-from tests.integration_tests.test_user import fake_user
-
-
-@pytest.fixture
-def fake_address(db_session, fake_user):
-    address = AddressEntity(
-        user_id=fake_user.id,
-        street="Main St",
-        number="123",
-        complement="Apt 4",
-        neighborhood="Downtown",
-        city="Metropolis",
-        state="NY",
-        zip_code="12345",
-        is_default=True,
-        created_at=datetime.now(),
-        updated_at=None
-    )
-    db_session.add(address)
-    db_session.commit()
-    return address
 
 
 def test_create_address(db_session, fake_user, fake_address):
