@@ -21,6 +21,7 @@ class ProductEntity(Base):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     category = relationship('CategoryEntity', back_populates='products')
     order_items = relationship('OrderItemEntity', back_populates='product')
+    reviews = relationship('ReviewEntity', back_populates='product')
 
     def __repr__(self):
         return f"Product [id = {self.id}, name = {self.name}, price = {self.price}, category_id = {self.category_id}]"
