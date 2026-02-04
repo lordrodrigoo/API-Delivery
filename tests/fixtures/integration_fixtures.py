@@ -40,7 +40,6 @@ def fake_user(db_session):
         email="ana.silva@example.com",
         phone="123456789",
         is_active=True,
-        password_hash="hashed_password",
         created_at=datetime.now(),
         updated_at=None
     )
@@ -54,7 +53,7 @@ def fake_account(db_session, fake_user):
     account = AccountEntity(
         user_id=fake_user.id,
         username="ana_silva",
-        password_hash="hashed_password",
+        password_hash="StrongHashedPassword123!",
         status="active",
         created_at=datetime.now(),
         updated_at=None

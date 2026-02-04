@@ -47,7 +47,6 @@ def test_uniq_email(db_session, fake_user):
         email="ana.silva@example.com",  # Duplicate email
         phone="192837465",
         is_active=True,
-        password_hash="hashed_password_3",
         created_at=datetime.now(),
         updated_at=None
     )

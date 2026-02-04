@@ -9,6 +9,9 @@ class EmailAlreadyExistsException(Exception):
     def __init__(self, email: str):
         self.email = email
 
+class InvalidCredentialsException(Exception):
+    pass
+
 async def email_exception_handler(request: Request, exc: EmailAlreadyExistsException):
     return JSONResponse(
         status_code=status.HTTP_409_CONFLICT,
@@ -19,6 +22,15 @@ async def email_exception_handler(request: Request, exc: EmailAlreadyExistsExcep
         }),
     )
 
+async def invalid_credentials_exception_handler(request: Request, exc: InvalidCredentialsException):
+    return JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content=jsonable_encoder({
+            "errors": {
+                "auth": "Invalid username or password."
+            }
+        }),
+    )
 
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     details = []
