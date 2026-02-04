@@ -1,5 +1,5 @@
 @baseUrl =http://localhost:8000/api/v1/users
-
+# INVALID USER CREATION WITH ALL FIELDS WRONG
 POST {{baseUrl}}
 Content-Type: application/json
 
@@ -26,4 +26,33 @@ Content-Type: application/json
     "phone": "11999999999",
     "username": "joaosilva",
     "password": "StrongP@ssw0rd!"
-}   
+}
+
+### CREATING A USER WITH AN EMAIL THAT ALREADY EXISTS
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "first_name": "Maria",
+    "last_name": "Oliveira",
+    "age": 30,
+    "email": "joao.silva@example.com",
+    "phone": "11988888888",
+    "username": "mariaoliveira",
+    "password": "An0ther$trongPass!"
+}
+
+
+### TESTING WEEK PASSWORD
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "first_name": "Carlos",
+    "last_name": "Santos",
+    "age": 28,
+    "email": "carlos.santos@example.com",
+    "phone": "11977777777",
+    "username": "carlossantos",
+    "password": "weakpass"
+}

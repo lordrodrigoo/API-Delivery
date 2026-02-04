@@ -74,4 +74,3 @@ class CreateUserRequest(BaseModel):
                 "and one special character"
             )
         return password
-
